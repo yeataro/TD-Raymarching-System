@@ -10,8 +10,8 @@ uniform float uMaxDist;					// the max distance away from the eye to march befor
 
 // scene parameters
 uniform int uNum;						// number of primitives in array
-uniform samplerBuffer uPrim;			// textrure buffer name defined on Arrays page of the node
-uniform float uSmoothK;					// smooth distance for blending primitives
+//uniform samplerBuffer uPrim;			// textrure buffer name defined on Arrays page of the node
+//uniform float uSmoothK;					// smooth distance for blending primitives
 
 // Camera and color parameters
 uniform vec3 uLight1Pos;				// Light position
@@ -22,11 +22,15 @@ uniform vec3 uDiffuse;
 uniform vec3 uSpecular;
 uniform float uShine;					// Shininess coefficient
 
-//New Code
-uniform samplerBuffer SDFsType;
-uniform samplerBuffer SDFsT;
-uniform samplerBuffer SDFsR;
-uniform samplerBuffer SDFsS;
+//Type, Uni, K
+uniform samplerBuffer SDFsPara;
+
+//matrix
+uniform samplerBuffer Mat0;
+uniform samplerBuffer Mat1;
+uniform samplerBuffer Mat2;
+uniform samplerBuffer Mat3;
+
 
 in Vertex
 {
@@ -67,27 +71,29 @@ float cubeSDF(vec3 p) {
 }
 
 
-float sphereDf(vec3 p, vec3 spherePos, float radius)
+float sphereDf(vec3 p)
 {
-    return length(p - spherePos) - radius;
+    return length(p)-1;
 }
 
-float sdPlane( vec3 p, vec4 n )
+float sdPlane( vec3 p)
 {
+   vec4 n = vec4(1.);
     // n must be normalized
     return dot( p, n.xyz ) + n.w;
 }
 
-float sdTorus( vec3 p, vec2 t )
+float sdTorus( vec3 p,vec2 t = vec2(1,0.5))
 {
+  //vec2 t = vec2(1,0.5);
   vec2 q = vec2(length(p.xz)-t.x,p.y);
   return length(q)-t.y;
 }
 
-#define Type01 sphereDf
-#define Type02 cubeSDF
-#define Type03 sdPlane
-#define Type04 sdTorus
+#define Type0 sphereDf(Pos); 
+#define Type1 cubeSDF(Pos); 
+#define Type2 sdPlane(Pos); 
+#define Type3 sdTorus(Pos); 
 
 
 
@@ -101,12 +107,12 @@ float sdTorus( vec3 p, vec2 t )
 5 = Smooth Intersection
 */
 
-#define Combie01 opUnion
-#define Combie02 opSubtraction
-#define Combie03 opIntersection
-#define Combie04 opSmoothUnion
-#define Combie05 opSmoothSubtraction
-#define Combie06 opSmoothIntersection
+#define Combie0 opUnion(scene, sph)
+#define Combie1 opSubtraction(sph, scene)
+#define Combie2 opIntersection(scene, sph)
+#define Combie3 opSmoothUnion(scene, sph, K)
+#define Combie4 opSmoothSubtraction(sph, scene, K)
+#define Combie5 opSmoothIntersection(scene, sph, K)
 
 /// Union, Subtraction, Intersection - exact, bound, bound
 float opUnion( float d1, float d2 ) { return min(d1,d2); }
@@ -116,22 +122,31 @@ float opSubtraction( float d1, float d2 ) { return max(-d1,d2); }
 float opIntersection( float d1, float d2 ) { return max(d1,d2); }
 
 // Smooth Union, Subtraction and Intersection - exact, bound, bound
-float opSmoothUnion( float d1, float d2) {
-    float k = uSmoothK;
+float opSmoothUnion( float d1, float d2, float k =1) {
     float h = clamp( 0.5 + 0.5*(d2-d1)/k, 0.0, 1.0 );
     return mix( d2, d1, h ) - k*h*(1.0-h); }
 
-float opSmoothSubtraction( float d1, float d2, float k ) {
+float opSmoothSubtraction( float d1, float d2, float k =1 ) {
     float h = clamp( 0.5 - 0.5*(d2+d1)/k, 0.0, 1.0 );
     return mix( d2, -d1, h ) + k*h*(1.0-h); }
 
-float opSmoothIntersection( float d1, float d2, float k ) {
+float opSmoothIntersection( float d1, float d2, float k =1 ) {
     float h = clamp( 0.5 - 0.5*(d2-d1)/k, 0.0, 1.0 );
     return mix( d2, d1, h ) + k*h*(1.0-h); }
 
 //------------------------------------------------------------
 // Describe your scene here
 //------------------------------------------------------------
+mat4 SdfDeform(int i){
+    mat4 TheMAT;
+    TheMAT[0] = texelFetchBuffer(Mat0, i);
+    TheMAT[1] = texelFetchBuffer(Mat1, i);
+    TheMAT[2] = texelFetchBuffer(Mat2, i);
+    TheMAT[3] = texelFetchBuffer(Mat3, i);
+    return TheMAT;
+}
+
+
 float sceneSDF(vec3 p)
 {
     
@@ -150,25 +165,42 @@ float sceneSDF(vec3 p)
     */
 
     //  New Code
+
+
     for (int i = 0; i < uNum; i++) {
 
-        int type = int(texelFetchBuffer(SDFsType, i));
-        vec3 T = texelFetchBuffer(SDFsT, i).xyz;
-        vec3 R = texelFetchBuffer(SDFsR, i).xyz;
-        vec3 S = texelFetchBuffer(SDFsS, i).xyz;
-        vec4 smpl = texelFetchBuffer(uPrim, i);
+        vec4 SDFsParameter = texelFetchBuffer(SDFsPara, i);
+        int type = int(SDFsParameter.x);
+        int Uni = int(SDFsParameter.y);
+        float K =SDFsParameter.z;
+        
+        mat4 SdfDeform = SdfDeform(i);
+        vec4 Posv4 = vec4(p,1.);
+        Posv4 = SdfDeform*Posv4;
+        vec3 Pos = Posv4.xyz;
+        float sph;
+        
+        
 
-        if (type == 0){
-        vec3 sphere = vec3(smpl.xyz);	// position
-        float radius = smpl.w;			// radius
-        float sph = Type01(p, sphere, radius); 
-        scene = opSmoothUnion(scene, sph);
+        switch(type){
+            default:sph = Type0; break;
+            case 0: sph = Type0; break;
+            case 1: sph = Type1; break;
+            case 2: sph = Type2; break;
+            case 3: sph = Type3; break;
         }
-        else if (type == 1){
 
+        switch(Uni){
+            default:scene = Combie0 ; break;
+            case 0: scene = Combie0 ; break;
+            case 1: scene = Combie1 ; break;
+            case 2: scene = Combie2 ; break;
+            case 3: scene = Combie3 ; break;
+            case 4: scene = Combie4 ; break;
+            case 5: scene = Combie5 ; break;
         }
+
     }
-
 
 
 
