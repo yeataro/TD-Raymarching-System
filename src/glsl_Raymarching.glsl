@@ -1,5 +1,6 @@
 // Code adapted from http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
-// TouchDesigner version by exsstas https://github.com/exsstas/Raymarching-in-TD
+// Inspired by exsstas https://github.com/exsstas/Raymarching-in-TD
+// TD-Raymarching-System by Yea Chen  https://github.com/yeataro/
 
 out vec4 fragColor;
 
@@ -10,44 +11,31 @@ uniform float uMaxDist;					// the max distance away from the eye to march befor
 
 // scene parameters
 uniform int uNum;						// number of primitives in array
-//uniform samplerBuffer uPrim;			// textrure buffer name defined on Arrays page of the node
-//uniform float uSmoothK;					// smooth distance for blending primitives
 
-// Camera and color parameters
-uniform vec3 uLight1Pos;				// Light position
-uniform vec3 uLight1Col;				// Light color
-
-uniform vec3 uAmbient;
-uniform vec3 uDiffuse;
-uniform vec3 uSpecular;
-uniform float uShine;					// Shininess coefficient
-
-//Type, Uni, K
+// Primitive's "Type" & combinations("Uni", "K")
 uniform samplerBuffer SDFsPara;
 
-//matrix
+// Primitive's matrix
 uniform samplerBuffer Mat0;
 uniform samplerBuffer Mat1;
 uniform samplerBuffer Mat2;
 uniform samplerBuffer Mat3;
 
+// Colors
+uniform float uAlpha;
+uniform vec4 uDiffuseColor;
+uniform vec4 uAmbientColor;
+uniform vec3 uSpecularColor;
+uniform float uShininess;
+uniform float uShadowStrength;
+uniform vec3 uShadowColor;
 
 in Vertex
 {
 	flat int cameraIndex;
-	mat4 WProj;
-	mat4 Proj;
-	mat4 invProj;
-    mat4 worldCam;
-    mat4 worldCamInverse;
-    mat4 cam;
-    mat4 camInverse;
-    mat4 camProj;
-	mat4 camProjInverse;
 	vec2 texCoord0;
 } iVert;
 
-//New Code
 
 //------------------------------------------------------------
 // SDF functions - add below all primitives and blending functions you need
@@ -78,14 +66,13 @@ float sphereDf(vec3 p)
 
 float sdPlane( vec3 p)
 {
-   vec4 n = vec4(1.);
+   vec4 n = vec4(.5);
     // n must be normalized
     return dot( p, n.xyz ) + n.w;
 }
 
 float sdTorus( vec3 p,vec2 t = vec2(1,0.5))
 {
-  //vec2 t = vec2(1,0.5);
   vec2 q = vec2(length(p.xz)-t.x,p.y);
   return length(q)-t.y;
 }
@@ -99,6 +86,7 @@ float sdTorus( vec3 p,vec2 t = vec2(1,0.5))
 
 /* 
 # Primitive combinations
+http://iquilezles.org/www/articles/distfunctions/distfunctions.htm
 0 = Union
 1 = Subtraction
 2 = Intersection
@@ -134,9 +122,8 @@ float opSmoothIntersection( float d1, float d2, float k =1 ) {
     float h = clamp( 0.5 - 0.5*(d2-d1)/k, 0.0, 1.0 );
     return mix( d2, d1, h ) + k*h*(1.0-h); }
 
-//------------------------------------------------------------
-// Describe your scene here
-//------------------------------------------------------------
+//Get Matrix from Primitives.
+
 mat4 SdfDeform(int i){
     mat4 TheMAT;
     TheMAT[0] = texelFetchBuffer(Mat0, i);
@@ -146,26 +133,14 @@ mat4 SdfDeform(int i){
     return TheMAT;
 }
 
+//------------------------------------------------------------
+// Describe scene here
+//------------------------------------------------------------
 
 float sceneSDF(vec3 p)
 {
     
     float scene = uMaxDist;  // for empty start
-    //float scene = sdPlane(p, uPlane);
-
-    /* Oringinal Code
-    // Loop for creating spheres at every sample of an array
-    for (int i = 0; i < uNum; i++) {
-        vec4 smpl = texelFetchBuffer(uPrim, i);
-        vec3 sphere = vec3(smpl.xyz);	// position
-        float radius = smpl.w;			// radius
-        float sph = sphereDf(p, sphere, radius); 
-        scene = opSmoothUnion(scene, sph);
-    }
-    */
-
-    //  New Code
-
 
     for (int i = 0; i < uNum; i++) {
 
@@ -206,6 +181,9 @@ float sceneSDF(vec3 p)
 
     return scene;
 }
+//------------------------------------------------------------
+
+
 
 //------------------------------------------------------------
 // Distance and direction
@@ -230,20 +208,13 @@ float shortestDistanceToSurface(vec3 eye, vec3 marchingDirection, float start, f
     }
     return end;
 }
-/**
-**
- * Return the normalized direction to march in from the eye point for a single pixel.
- * 
- * fieldOfView: vertical field of view in degrees
- * size: resolution of the output image
- * fragCoord: the x,y coordinate of the pixel in the output image
- */
+
 
 vec3 rayDirection(vec2 fragCoord) {
     vec2 pos = (fragCoord-0.5)*2;
-    vec4 Dir = iVert.invProj * vec4(pos,0,-1);
+    vec4 Dir = uTDMats[iVert.cameraIndex].projInverse * vec4(pos,0,-1);
     Dir = normalize(vec4(Dir.xy,-Dir.z,1));
-    vec4 wDir = Dir * iVert.cam;
+    vec4 wDir = Dir *uTDMats[iVert.cameraIndex].cam;
     return wDir.xyz;
 }
 
@@ -253,7 +224,7 @@ float map(float value, float min1, float max1, float min2, float max2) {
 }
 
 float procDepth(vec3 localPos){
-    vec4 frag = iVert.camProj*vec4(localPos,1);
+    vec4 frag = uTDMats[iVert.cameraIndex].camProj*vec4(localPos,1);
     frag/=frag.w;
     return (frag.z+1)/2;
 }
@@ -273,111 +244,56 @@ vec3 estimateNormal(vec3 p) {
     ));
 }
 
+//Lighting with TD's way
+vec4 TDLightingSDF(vec3 p,vec3 eye){
+    vec4 outcol = vec4(0.0, 0.0, 0.0, uAlpha);
+	vec3 diffuseSum = vec3(0.0, 0.0, 0.0);
+	vec3 specularSum = vec3(0.0, 0.0, 0.0);
+    vec3 normal = estimateNormal(p);
+    vec3 viewVec = normalize(eye - p);
 
+    for (int i = 0; i < TD_NUM_LIGHTS; i++)
+	{
+		vec3 diffuseContrib = vec3(0);
+		vec3 specularContrib = vec3(0);
+		TDLighting(diffuseContrib,
+			specularContrib,
+			i,
+			p,
+			normal,
+			uShadowStrength, uShadowColor,
+			viewVec,
+			uShininess);
+		diffuseSum += diffuseContrib;
+		specularSum += specularContrib;
+	}
+    // Final Diffuse Contribution
+	diffuseSum *= uDiffuseColor.rgb;
+	vec3 finalDiffuse = diffuseSum;
+	outcol.rgb += finalDiffuse;
 
-//------------------------------------------------------------
-// Light + coloring + shadows
-//------------------------------------------------------------
-/**
- * Lighting contribution of a single point light source via Phong illumination.
- * 
- * The vec3 returned is the RGB color of the light's contribution.
- *
- * k_a: Ambient color
- * k_d: Diffuse color
- * k_s: Specular color
- * alpha: Shininess coefficient
- * p: position of point being lit
- * eye: the position of the camera
- * lightPos: the position of the light
- * lightIntensity: color/intensity of the light
- *
- * See https://en.wikipedia.org/wiki/Phong_reflection_model#Description
- */
-vec3 phongContribForLight(vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye,
-                          vec3 lightPos, vec3 lightIntensity) {
-    vec3 N = estimateNormal(p);
-    vec3 L = normalize(lightPos - p);
-    vec3 V = normalize(eye - p);
-    vec3 R = normalize(reflect(-L, N));
-    
-    float dotLN = dot(L, N);
-    float dotRV = dot(R, V);
-    
-    if (dotLN < 0.0) {
-        // Light not visible from this point on the surface, so add no color
-        return vec3(0.0);
-    } 
-    
-    if (dotRV < 0.0) {
-        // Light reflection in opposite direction as viewer, apply only diffuse
-        // component
-        return lightIntensity * (k_d * dotLN);
-    }
-    return lightIntensity * (k_d * dotLN + k_s * pow(dotRV, alpha));
+	// Final Specular Contribution
+	vec3 finalSpecular = vec3(0.0);
+	specularSum *= uSpecularColor;
+	finalSpecular += specularSum;
+
+	outcol.rgb += finalSpecular;
+
+	// Ambient Light Contribution
+	outcol.rgb += vec3(uTDGeneral.ambientColor.rgb * uAmbientColor.rgb);
+    return outcol;
 }
-
-/**
- * Lighting via Phong illumination.
- * 
- * The vec3 returned is the RGB color of that point after lighting is applied.
- * k_a: Ambient color
- * k_d: Diffuse color
- * k_s: Specular color
- * alpha: Shininess coefficient
- * p: position of point being lit
- * eye: the position of the camera
- *
- * See https://en.wikipedia.org/wiki/Phong_reflection_model#Description
- */
-vec3 phongIllumination(vec3 k_a, vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye) {
-    const vec3 ambientLight = 0.5 * vec3(1.0, 1.0, 1.0);
-    vec3 color = ambientLight * k_a;
-    color += phongContribForLight(k_d, k_s, alpha, p, eye,
-                                  uLight1Pos,
-                                  uLight1Col);
-    
- 
-    // Example of hardcoded (second) light:
-    //
-    // vec3 light2Pos = vec3(2.0 * sin(0.37 * uTime),
-    //                       2.0 * cos(0.37 * uTime),
-    //                       2.0);
-    // vec3 light2Intensity = vec3(0.4, 0.4, 0.4);   
-    // color += phongContribForLight(k_d, k_s, alpha, p, eye,
-    //                               light2Pos,
-    //                               light2Intensity);    
-    return color;
-}
-
-
-//------------------------------------------------------------
-// "Look at ..." matrix
-//------------------------------------------------------------
-/**
- * Return a transform matrix that will transform a ray from view space
- * to world coordinates, given the eye point, the camera target, and an up vector.
- *
- * This assumes that the center of the camera is aligned with the negative z axis in
- * view space when calculating the ray marching direction. See rayDirection.
- */
-
-//------------------------------------------------------------
-// Put everything together
-//------------------------------------------------------------
-
-
 
 
 
 void main()
 {
-    //TDCheckDiscard();
-    vec2 uv = iVert.texCoord0;
+    TDCheckDiscard();
+    vec2 CanvasUV = iVert.texCoord0;
 
     // setting camera(eye)
-    vec3 eye = vec4(iVert.camInverse*vec4(0,0,0,1)).xyz;
-    vec3 worldDir = rayDirection(uv);
+    vec3 eye = vec4(uTDMats[iVert.cameraIndex].camInverse*vec4(0,0,0,1)).xyz;
+    vec3 worldDir = rayDirection(CanvasUV);
 
     float dist = shortestDistanceToSurface(eye, worldDir, uMinDist, uMaxDist);
     
@@ -392,10 +308,10 @@ void main()
     vec3 p = eye + dist * worldDir;         
     float Depth = procDepth(p);
 
-    // coloring (details at line 165)
-    vec3 color = phongIllumination(uAmbient, uDiffuse, uSpecular, uShine, p, eye); 
-    // alpha set to 1.0, try change it to 0.0 instead:
-    vec4 fColor =vec4(color, 1.0);
+    //TD lighting
+    vec4 fColor = TDLightingSDF(p,eye);
+
+    //Output Color
     fColor = TDDither(fColor);
     fColor = TDOutputSwizzle(fColor);
     fragColor = fColor;
