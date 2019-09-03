@@ -1,0 +1,186 @@
+<svg width="857" height="494" viewBox="0 0 857 494" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Group</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(393 358)">
+<g id="Group">
+<g id="Group">
+<g id="Line">
+<use xlink:href="#path0_stroke" transform="matrix(0.690669 0.723171 -0.723171 0.690669 -389 -9)"/>
+</g>
+<g id="Line 2">
+<use xlink:href="#path1_stroke" transform="matrix(0.976401 -0.215965 0.215965 0.976401 -304 79.9066)"/>
+</g>
+<g id="Line 3">
+<use xlink:href="#path2_stroke" transform="matrix(0.940887 0.338719 -0.338719 0.940887 -214 60)"/>
+</g>
+<g id="Line 4">
+<use xlink:href="#path3_stroke" transform="matrix(0.919145 -0.393919 0.393919 0.919145 -64.197 113.54)"/>
+</g>
+<g id="Line 5">
+<use xlink:href="#path4_stroke" transform="matrix(0.974097 0.22613 -0.22613 0.974097 2 108)"/>
+</g>
+<g id="Line 6">
+<use xlink:href="#path5_stroke" transform="matrix(0.760834 -0.648947 0.648947 0.760834 58 121)"/>
+</g>
+<g id="Line 7">
+<use xlink:href="#path6_stroke" transform="matrix(0.816416 0.577465 -0.577465 0.816416 126 63)"/>
+</g>
+<g id="Line 8">
+<use xlink:href="#path7_stroke" transform="matrix(0.962013 -0.273004 0.273004 0.962013 167 92)"/>
+</g>
+<g id="Line 9">
+<use xlink:href="#path8_stroke" transform="matrix(0.957024 0.290007 -0.290007 0.957024 241 71)"/>
+</g>
+<g id="Line 10">
+<use xlink:href="#path9_stroke" transform="matrix(0.921426 -0.388553 0.388553 0.921426 307 92)"/>
+</g>
+<g id="Line 11">
+<use xlink:href="#path10_stroke" transform="matrix(0.715187 -0.698933 0.698933 0.715187 390 57)"/>
+</g>
+</g>
+<g id="Arrow">
+<use xlink:href="#path11_stroke" transform="matrix(0.948907 0.315556 -0.315556 0.948907 -389 -226)"/>
+</g>
+<g id="Group">
+<g id="Ellipse" filter="url(#filter0_d)">
+<mask id="mask0_outline_out">
+<rect id="mask0_outline_inv" fill="white" x="-2" y="-2" width="430" height="430" transform="translate(-352 -356)"/>
+<use xlink:href="#path12_fill" fill="black" transform="translate(-352 -356)"/>
+</mask>
+<g mask="url(#mask0_outline_out)">
+<use xlink:href="#path13_stroke_2x" transform="translate(-352 -356)"/>
+</g>
+</g>
+<g id="Star">
+<use xlink:href="#path14_fill" transform="translate(-145 -149)"/>
+</g>
+</g>
+<g id="Group">
+<g id="Ellipse" filter="url(#filter1_d)">
+<mask id="mask1_outline_out">
+<rect id="mask1_outline_inv" fill="white" x="-2" y="-2" width="303" height="303" transform="translate(-86 -225)"/>
+<use xlink:href="#path15_fill" fill="black" transform="translate(-86 -225)"/>
+</mask>
+<g mask="url(#mask1_outline_out)">
+<use xlink:href="#path16_stroke_2x" transform="translate(-86 -225)"/>
+</g>
+</g>
+<g id="Star">
+<use xlink:href="#path14_fill" transform="translate(57 -82)"/>
+</g>
+</g>
+<g id="Group">
+<g id="Ellipse" filter="url(#filter2_d)">
+<mask id="mask2_outline_out">
+<rect id="mask2_outline_inv" fill="white" x="-2" y="-2" width="203" height="203" transform="translate(106 -128)"/>
+<use xlink:href="#path17_fill" fill="black" transform="translate(106 -128)"/>
+</mask>
+<g mask="url(#mask2_outline_out)">
+<use xlink:href="#path18_stroke_2x" transform="translate(106 -128)"/>
+</g>
+</g>
+<g id="Star">
+<use xlink:href="#path14_fill" transform="translate(199.174 -33.8261)"/>
+</g>
+</g>
+<g id="Group">
+<g id="Ellipse" filter="url(#filter3_d)">
+<mask id="mask3_outline_out">
+<rect id="mask3_outline_inv" fill="white" x="-2" y="-2" width="166" height="166" transform="translate(218 -80)"/>
+<use xlink:href="#path19_fill" fill="black" transform="translate(218 -80)"/>
+</mask>
+<g mask="url(#mask3_outline_out)">
+<use xlink:href="#path20_stroke_2x" transform="translate(218 -80)"/>
+</g>
+</g>
+<g id="Star">
+<use xlink:href="#path14_fill" transform="translate(293.478 -2.52174)"/>
+</g>
+</g>
+<g id="Group">
+<g id="Ellipse" filter="url(#filter4_d)">
+<mask id="mask4_outline_out">
+<rect id="mask4_outline_inv" fill="white" x="-2" y="-2" width="54" height="54" transform="translate(351 3)"/>
+<use xlink:href="#path21_fill" fill="black" transform="translate(351 3)"/>
+</mask>
+<g mask="url(#mask4_outline_out)">
+<use xlink:href="#path22_stroke_2x" transform="translate(351 3)"/>
+</g>
+</g>
+<g id="Star">
+<use xlink:href="#path14_fill" transform="translate(369.913 21.913)"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_d" filterUnits="userSpaceOnUse" x="-358" y="-358" width="438" height="438" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+<feOffset dx="0" dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter1_d" filterUnits="userSpaceOnUse" x="-92" y="-227" width="311" height="311" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+<feOffset dx="0" dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter2_d" filterUnits="userSpaceOnUse" x="100" y="-130" width="211" height="211" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+<feOffset dx="0" dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter3_d" filterUnits="userSpaceOnUse" x="212" y="-82" width="174" height="174" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+<feOffset dx="0" dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter4_d" filterUnits="userSpaceOnUse" x="345" y="1" width="62" height="62" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+<feOffset dx="0" dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<path id="path0_stroke" d="M 0 0L 123.069 0L 123.069 -5L 0 -5L 0 0Z"/>
+<path id="path1_stroke" d="M 0 0L 92.1752 0L 92.1752 -5L 0 -5L 0 0Z"/>
+<path id="path2_stroke" d="M 0 0L 159.424 0L 159.424 -5L 0 -5L 0 0Z"/>
+<path id="path3_stroke" d="M -0.789715 2.37199L 62.2374 23.3558L 63.8168 18.6118L 0.789715 -2.37199L -0.789715 2.37199Z"/>
+<path id="path4_stroke" d="M 0 0L 57.4891 0L 57.4891 -5L 0 -5L 0 0Z"/>
+<path id="path5_stroke" d="M 0 0L 89.3756 0L 89.3756 -5L 0 -5L 0 0Z"/>
+<path id="path6_stroke" d="M 0 0L 50.2195 0L 50.2195 -5L 0 -5L 0 0Z"/>
+<path id="path7_stroke" d="M 0 0L 76.922 0L 76.922 -5L 0 -5L 0 0Z"/>
+<path id="path8_stroke" d="M 0 0L 68.9638 0L 68.9638 -5L 0 -5L 0 0Z"/>
+<path id="path9_stroke" d="M 0 0L 90.0777 0L 90.0777 -5L 0 -5L 0 0Z"/>
+<path id="path10_stroke" d="M 0 0L 61.5224 0L 61.5224 -5L 0 -5L 0 0Z"/>
+<path id="path11_stroke" d="M 894.721 1.06066C 895.306 0.474874 895.306 -0.474874 894.721 -1.06066L 885.175 -10.6066C 884.589 -11.1924 883.639 -11.1924 883.053 -10.6066C 882.468 -10.0208 882.468 -9.07107 883.053 -8.48528L 891.539 0L 883.053 8.48528C 882.468 9.07107 882.468 10.0208 883.053 10.6066C 883.639 11.1924 884.589 11.1924 885.175 10.6066L 894.721 1.06066ZM 0 1.5L 893.66 1.5L 893.66 -1.5L 0 -1.5L 0 1.5Z"/>
+<path id="path12_fill" d="M 426 213C 426 330.637 330.637 426 213 426C 95.3633 426 0 330.637 0 213C 0 95.3633 95.3633 0 213 0C 330.637 0 426 95.3633 426 213Z"/>
+<path id="path13_stroke_2x" d="M 424 213C 424 329.532 329.532 424 213 424L 213 428C 331.741 428 428 331.741 428 213L 424 213ZM 213 424C 96.4679 424 2 329.532 2 213L -2 213C -2 331.741 94.2588 428 213 428L 213 424ZM 2 213C 2 96.4679 96.4679 2 213 2L 213 -2C 94.2588 -2 -2 94.2588 -2 213L 2 213ZM 213 2C 329.532 2 424 96.4679 424 213L 428 213C 428 94.2588 331.741 -2 213 -2L 213 2Z"/>
+<path id="path14_fill" d="M 6.5 0L 7.95934 4.49139L 12.6819 4.49139L 8.86126 7.26722L 10.3206 11.7586L 6.5 8.98278L 2.6794 11.7586L 4.13874 7.26722L 0.318133 4.49139L 5.04066 4.49139L 6.5 0Z"/>
+<path id="path15_fill" d="M 299 149.5C 299 232.067 232.067 299 149.5 299C 66.9334 299 0 232.067 0 149.5C 0 66.9334 66.9334 0 149.5 0C 232.067 0 299 66.9334 299 149.5Z"/>
+<path id="path16_stroke_2x" d="M 297 149.5C 297 230.962 230.962 297 149.5 297L 149.5 301C 233.171 301 301 233.171 301 149.5L 297 149.5ZM 149.5 297C 68.038 297 2 230.962 2 149.5L -2 149.5C -2 233.171 65.8289 301 149.5 301L 149.5 297ZM 2 149.5C 2 68.038 68.038 2 149.5 2L 149.5 -2C 65.8289 -2 -2 65.8289 -2 149.5L 2 149.5ZM 149.5 2C 230.962 2 297 68.038 297 149.5L 301 149.5C 301 65.8289 233.171 -2 149.5 -2L 149.5 2Z"/>
+<path id="path17_fill" d="M 199 99.5C 199 154.452 154.452 199 99.5 199C 44.5477 199 0 154.452 0 99.5C 0 44.5477 44.5477 0 99.5 0C 154.452 0 199 44.5477 199 99.5Z"/>
+<path id="path18_stroke_2x" d="M 197 99.5C 197 153.348 153.348 197 99.5 197L 99.5 201C 155.557 201 201 155.557 201 99.5L 197 99.5ZM 99.5 197C 45.6522 197 2 153.348 2 99.5L -2 99.5C -2 155.557 43.4431 201 99.5 201L 99.5 197ZM 2 99.5C 2 45.6522 45.6522 2 99.5 2L 99.5 -2C 43.4431 -2 -2 43.4431 -2 99.5L 2 99.5ZM 99.5 2C 153.348 2 197 45.6522 197 99.5L 201 99.5C 201 43.4431 155.557 -2 99.5 -2L 99.5 2Z"/>
+<path id="path19_fill" d="M 162 81C 162 125.735 125.735 162 81 162C 36.2649 162 0 125.735 0 81C 0 36.2649 36.2649 0 81 0C 125.735 0 162 36.2649 162 81Z"/>
+<path id="path20_stroke_2x" d="M 160 81C 160 124.63 124.63 160 81 160L 81 164C 126.84 164 164 126.84 164 81L 160 81ZM 81 160C 37.3695 160 2 124.63 2 81L -2 81C -2 126.84 35.1604 164 81 164L 81 160ZM 2 81C 2 37.3695 37.3695 2 81 2L 81 -2C 35.1604 -2 -2 35.1604 -2 81L 2 81ZM 81 2C 124.63 2 160 37.3695 160 81L 164 81C 164 35.1604 126.84 -2 81 -2L 81 2Z"/>
+<path id="path21_fill" d="M 50 25C 50 38.8071 38.8071 50 25 50C 11.1929 50 0 38.8071 0 25C 0 11.1929 11.1929 0 25 0C 38.8071 0 50 11.1929 50 25Z"/>
+<path id="path22_stroke_2x" d="M 48 25C 48 37.7025 37.7025 48 25 48L 25 52C 39.9117 52 52 39.9117 52 25L 48 25ZM 25 48C 12.2975 48 2 37.7025 2 25L -2 25C -2 39.9117 10.0883 52 25 52L 25 48ZM 2 25C 2 12.2975 12.2975 2 25 2L 25 -2C 10.0883 -2 -2 10.0883 -2 25L 2 25ZM 25 2C 37.7025 2 48 12.2975 48 25L 52 25C 52 10.0883 39.9117 -2 25 -2L 25 2Z"/>
+</defs>
+</svg>
