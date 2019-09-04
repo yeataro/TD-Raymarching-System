@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/github/license/yeataro/TD-Raymarching-System.svg)](LICENSE)
 
 
-A Raymarching-System based on object COMP can be easily integrated with existing TD rendering processes.
+A Raymarching-System based on object COMP can be easily integrated with existing [TouchDesigner] rendering processes.
 ## Work in progress.
 
 ![icon](docs/img/Comp.png)
@@ -48,3 +48,5 @@ https://github.com/yeataro \
 
 ## License 
 [MIT license](https://github.com/yeataro/TD-Anime4K/blob/master/LICENSE)
+
+[TouchDesigner]: http://www.derivative.ca/
