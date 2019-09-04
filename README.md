@@ -47,6 +47,6 @@ https://github.com/yeataro \
 <yeataro@gmail.com>
 
 ## License 
-[MIT license](https://github.com/yeataro/TD-Anime4K/blob/master/LICENSE)
+[MIT license](https://github.com/yeataro/TD-Raymarching-System/blob/master/LICENSE)
 
 [TouchDesigner]: http://www.derivative.ca/
