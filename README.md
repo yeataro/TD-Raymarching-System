@@ -5,8 +5,6 @@ A Raymarching-System based on object COMP can be easily integrated with existing
 
 ![icon](docs/img/Comp.png)
 
-
-
 ![system](docs/img/useagePW.png)
 
 ![render](docs/img/renderPW.png)
