@@ -1,7 +1,7 @@
 # TD-Raymarching-System
 ![](https://img.shields.io/badge/version-WIP-red)
 ![](https://img.shields.io/github/last-commit/yeataro/TD-Raymarching-System)
-[![license](https://img.shields.io/github/license/yeataro/TD-Raymarching-System.svg)](LICENSE)
+[![license](https://img.shields.io/github/license/yeataro/TD-Raymarching-System)](LICENSE)
 
 
 A Raymarching-System based on object COMP can be easily integrated with existing [TouchDesigner] rendering processes.
