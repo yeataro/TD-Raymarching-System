@@ -41,6 +41,9 @@ http://iquilezles.org/www/articles/distfunctions/distfunctions.htm
 #### Ray Marching and Signed Distance Functions by Zerø Wind
 http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
 
+#### sdfgen by Armory 3D
+https://github.com/armory3d/sdfgen
+
 ## Author
 #### Yea Chen (yeataro)
 https://github.com/yeataro \
