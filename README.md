@@ -35,7 +35,7 @@ A Raymarching-System based on object COMP can be easily integrated with existing
 #### Raymarching-in-TD by exsstas
  https://github.com/exsstas/Raymarching-in-TD
 
-#### d1istance functions by Inigo Quilez
+#### distance functions by Inigo Quilez
 http://iquilezles.org/www/articles/distfunctions/distfunctions.htm
 
 #### Ray Marching and Signed Distance Functions by Zerø Wind
