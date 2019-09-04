@@ -288,6 +288,10 @@ vec4 TDLightingSDF(vec3 p,vec3 eye){
 
 void main()
 {
+	if (uNum < 0.5 ){
+		discard;
+	}
+
     TDCheckDiscard();
     vec2 CanvasUV = iVert.texCoord0;
 
