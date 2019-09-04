@@ -3,7 +3,7 @@
 A Raymarching-System based on object COMP can be easily integrated with existing TD rendering processes.
 ## Work in progress.
 
-![icon](docs/img/comp.png)
+![icon](docs/img/Comp.png)
 
 
 
