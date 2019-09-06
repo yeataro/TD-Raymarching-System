@@ -24,7 +24,7 @@ A Raymarching-System based on object COMP can be easily integrated with existing
 - [ ] UV, texture Node
 - [ ] Color blend
 - [ ] Shadow
-> Note : How to make light COMP's polygon offset parameter work in Pixel Shader? At what stage does it work?
+> Note : Depth offset for direct lighting calculation stage.
 
 - [ ] Volumetric Rendering
 ### Generator
