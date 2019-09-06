@@ -20,9 +20,13 @@ A Raymarching-System based on object COMP can be easily integrated with existing
 - [ ] Affectors node
 ###  Rendering
 - [ ] Contvert View-Rec to Bounding Box, Reduce the fragment shader call.
+> Note : Since UV is calculated on each pixel, the speed seems to be superior to View-Rec only when it occupies less than 1/3 of the screen.
+
 - [ ] UV, texture Node
 - [ ] Color blend
 - [ ] Shadow
+> Note : How to make light COMP's polygon offset parameter work in Pixel Shader? At what stage does it work?
+
 - [ ] Volumetric Rendering
 ### Generator
 - [ ] SDF font texture generator

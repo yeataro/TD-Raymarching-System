@@ -2,7 +2,7 @@
 // Inspired by exsstas https://github.com/exsstas/Raymarching-in-TD
 // TD-Raymarching-System by Yea Chen  https://github.com/yeataro/
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor; //out float fragDepth;
 
 // raymarcher parameters
 uniform int uSteps;						// the max steps before giving up
@@ -29,6 +29,10 @@ uniform vec3 uSpecularColor;
 uniform float uShininess;
 uniform float uShadowStrength;
 uniform vec3 uShadowColor;
+
+// Depth
+uniform float uDepthOffset;
+
 
 in Vertex
 {
@@ -319,6 +323,7 @@ void main()
     fColor = TDDither(fColor);
     fColor = TDOutputSwizzle(fColor);
     fragColor = fColor;
+	//fragDepth = Depth;
     gl_FragDepth = Depth;
     
 }
