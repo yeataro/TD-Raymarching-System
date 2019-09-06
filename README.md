@@ -19,9 +19,8 @@ A Raymarching-System based on object COMP can be easily integrated with existing
 - [ ] Group node
 - [ ] Affectors node
 ###  Rendering
-- [ ] Contvert View-Rec to Bounding Box, Reduce the fragment shader call.
-> Note : Since UV is calculated on each pixel, the speed seems to be superior to View-Rec only when it occupies less than 1/3 of the screen. To use gl_FragCoord, it must use the width and height of render TOP to normalize, not concise.
-
+- [x] Contvert View-Rec to Bounding Box, Reduce the fragment shader call.
+> it's a option now.
 - [ ] UV, texture Node
 - [ ] Color blend
 - [ ] Shadow

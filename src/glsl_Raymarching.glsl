@@ -37,7 +37,7 @@ uniform float uDepthOffset;
 in Vertex
 {
 	flat int cameraIndex;
-	vec2 texCoord0;
+	noperspective vec2 ViewUV;
 } iVert;
 
 
@@ -253,6 +253,8 @@ vec4 TDLightingSDF(vec3 p,vec3 eye){
     vec4 outcol = vec4(0.0, 0.0, 0.0, uAlpha);
 	vec3 diffuseSum = vec3(0.0, 0.0, 0.0);
 	vec3 specularSum = vec3(0.0, 0.0, 0.0);
+	vec3 worldSpacePos = p+vec3(0,0,uDepthOffset*0.05);
+	//vec3 worldSpacePos = p;
     vec3 normal = estimateNormal(p);
     vec3 viewVec = normalize(eye - p);
 
@@ -263,7 +265,7 @@ vec4 TDLightingSDF(vec3 p,vec3 eye){
 		TDLighting(diffuseContrib,
 			specularContrib,
 			i,
-			p,
+			worldSpacePos,
 			normal,
 			uShadowStrength, uShadowColor,
 			viewVec,
@@ -297,7 +299,7 @@ void main()
 	}
 
     TDCheckDiscard();
-    vec2 CanvasUV = iVert.texCoord0;
+    vec2 CanvasUV = iVert.ViewUV;
 
     // setting camera(eye)
     vec3 eye = vec4(uTDMats[iVert.cameraIndex].camInverse*vec4(0,0,0,1)).xyz;
