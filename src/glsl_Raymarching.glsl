@@ -2,7 +2,8 @@
 // Inspired by exsstas https://github.com/exsstas/Raymarching-in-TD
 // TD-Raymarching-System by Yea Chen  https://github.com/yeataro/
 
-layout(location = 0) out vec4 fragColor; //out float fragDepth;
+layout(location = 0) out vec4 fragColor;
+// out float fragDepth;		// The doc says to do this but it doesn't work.
 
 // raymarcher parameters
 uniform int uSteps;						// the max steps before giving up
@@ -33,15 +34,18 @@ uniform vec3 uShadowColor;
 // Depth
 uniform float uDepthOffset;
 
+// Other
+//uniform bool ifnROOT;
 
 in Vertex
 {
 	flat int cameraIndex;
 	noperspective vec2 ViewUV;
+	//mat4 WorldInvMat;
 } iVert;
 
 
-//------------------------------------------------------------
+//-----------------------------------------------------------
 // SDF functions - add below all primitives and blending functions you need
 // http://iquilezles.org/www/articles/distfunctions/distfunctions.htm
 //------------------------------------------------------------
@@ -126,7 +130,9 @@ float opSmoothIntersection( float d1, float d2, float k =1 ) {
     float h = clamp( 0.5 - 0.5*(d2-d1)/k, 0.0, 1.0 );
     return mix( d2, d1, h ) + k*h*(1.0-h); }
 
-//Get Matrix from Primitives.
+// Displacement
+
+// Get Matrix from Primitives.
 
 mat4 SdfDeform(int i){
     mat4 TheMAT;
@@ -157,9 +163,8 @@ float sceneSDF(vec3 p)
         vec4 Posv4 = vec4(p,1.);
         Posv4 = SdfDeform*Posv4;
         vec3 Pos = Posv4.xyz;
+
         float sph;
-        
-        
 
         switch(type){
             default:sph = Type0; break;
@@ -180,8 +185,6 @@ float sceneSDF(vec3 p)
         }
 
     }
-
-
 
     return scene;
 }
@@ -250,22 +253,28 @@ vec3 estimateNormal(vec3 p) {
 
 //Lighting with TD's way
 vec4 TDLightingSDF(vec3 p,vec3 eye){
+
     vec4 outcol = vec4(0.0, 0.0, 0.0, uAlpha);
 	vec3 diffuseSum = vec3(0.0, 0.0, 0.0);
 	vec3 specularSum = vec3(0.0, 0.0, 0.0);
-	vec3 worldSpacePos = p+vec3(0,0,uDepthOffset*0.05);
-	//vec3 worldSpacePos = p;
+	//vec3 worldSpacePos = p+vec3(0,0,uDepthOffset*0.05);
+	vec3 worldSpacePos = p;
     vec3 normal = estimateNormal(p);
     vec3 viewVec = normalize(eye - p);
 
     for (int i = 0; i < TD_NUM_LIGHTS; i++)
 	{
+		// depth offset
+		vec3 lightDir = uTDLights[i].direction; 
+		float bias = uDepthOffset*max(1.0* (1.0 - dot(normal, lightDir)), 0.005);
+		// May be wrong ? ¯\_(ツ)_/¯ 
+		
 		vec3 diffuseContrib = vec3(0);
 		vec3 specularContrib = vec3(0);
 		TDLighting(diffuseContrib,
 			specularContrib,
 			i,
-			worldSpacePos,
+			worldSpacePos + vec3(0,0,bias),
 			normal,
 			uShadowStrength, uShadowColor,
 			viewVec,
@@ -294,21 +303,30 @@ vec4 TDLightingSDF(vec3 p,vec3 eye){
 
 void main()
 {
+	TDCheckDiscard();
+
 	if (uNum < 0.5 ){
 		discard;
 	}
 
-    TDCheckDiscard();
     vec2 CanvasUV = iVert.ViewUV;
 
     // setting camera(eye)
     vec3 eye = vec4(uTDMats[iVert.cameraIndex].camInverse*vec4(0,0,0,1)).xyz;
-    vec3 worldDir = rayDirection(CanvasUV);
 
+	// Transform by Render-COMP
+	// !! Need Fix for depthtest error !!
+	/*
+	if (ifnROOT){
+		eye = vec4(iVert.WorldInvMat * vec4(eye,1)).xyz;
+	}
+	*/
+
+    vec3 worldDir = rayDirection(CanvasUV);
     float dist = shortestDistanceToSurface(eye, worldDir, uMinDist, uMaxDist);
     
     if (dist > uMaxDist - uMinDist) {
-        discard;
+        discard;		// Didn't hit anything
         //fragColor = vec4(0.0);          // Didn't hit anything return transparent background
         //gl_FragDepth = 1;
         //return;
@@ -325,7 +343,7 @@ void main()
     fColor = TDDither(fColor);
     fColor = TDOutputSwizzle(fColor);
     fragColor = fColor;
-	//fragDepth = Depth;
-    gl_FragDepth = Depth;
+	//fragDepth = Depth;		// The doc says to do this but it doesn't work.
+    gl_FragDepth = Depth;		// I think this will disable the early depth test, but it doesn't matter.
     
 }
