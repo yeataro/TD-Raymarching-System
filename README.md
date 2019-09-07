@@ -19,13 +19,10 @@ A Raymarching-System based on object COMP can be easily integrated with existing
 - [ ] Group node
 - [ ] Affectors node
 ###  Rendering
-- [x] Contvert View-Rec to Bounding Box, Reduce the fragment shader call.
-> it's a option now.
+- [x] Contvert View-Rec to Bounding Box, Reduce the fragment shader call. ( Optional )
 - [ ] UV, texture Node
 - [ ] Color blend
-- [ ] Shadow
-> Note : Depth offset for direct lighting calculation stage.
-
+- [x] Shadow
 - [ ] Volumetric Rendering
 ### Generator
 - [ ] SDF font texture generator
