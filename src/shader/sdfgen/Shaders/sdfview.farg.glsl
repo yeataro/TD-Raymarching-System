@@ -12,8 +12,8 @@ const int maxSteps = 20;
 float aspect = uTDOutputInfo.res.z / uTDOutputInfo.res.w;
 
 const float near = 0.0;
-const float far = 10.0;
-const float eps = 0.02;
+const float far = 10;
+const float eps = 0.05;
 
 int steps;
 

@@ -1,4 +1,4 @@
-// Code adapted from http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
+﻿// Code adapted from http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
 // Inspired by exsstas https://github.com/exsstas/Raymarching-in-TD
 // TD-Raymarching-System by Yea Chen  https://github.com/yeataro/
 
@@ -79,7 +79,7 @@ float sdPlane( vec3 p)
     return dot( p, n.xyz ) + n.w;
 }
 
-float sdTorus( vec3 p,vec2 t = vec2(1,0.5))
+float sdTorus(vec3 p, vec2 t)
 {
   vec2 q = vec2(length(p.xz)-t.x,p.y);
   return length(q)-t.y;
@@ -88,7 +88,7 @@ float sdTorus( vec3 p,vec2 t = vec2(1,0.5))
 #define Type0 sphereDf(Pos); 
 #define Type1 cubeSDF(Pos); 
 #define Type2 sdPlane(Pos); 
-#define Type3 sdTorus(Pos); 
+#define Type3 sdTorus(Pos,vec2(1,0.5)); 
 
 
 
@@ -118,15 +118,15 @@ float opSubtraction( float d1, float d2 ) { return max(-d1,d2); }
 float opIntersection( float d1, float d2 ) { return max(d1,d2); }
 
 // Smooth Union, Subtraction and Intersection - exact, bound, bound
-float opSmoothUnion( float d1, float d2, float k =1) {
+float opSmoothUnion( float d1, float d2, float k) {
     float h = clamp( 0.5 + 0.5*(d2-d1)/k, 0.0, 1.0 );
     return mix( d2, d1, h ) - k*h*(1.0-h); }
 
-float opSmoothSubtraction( float d1, float d2, float k =1 ) {
+float opSmoothSubtraction( float d1, float d2, float k) {
     float h = clamp( 0.5 - 0.5*(d2+d1)/k, 0.0, 1.0 );
     return mix( d2, -d1, h ) + k*h*(1.0-h); }
 
-float opSmoothIntersection( float d1, float d2, float k =1 ) {
+float opSmoothIntersection( float d1, float d2, float k) {
     float h = clamp( 0.5 - 0.5*(d2-d1)/k, 0.0, 1.0 );
     return mix( d2, d1, h ) + k*h*(1.0-h); }
 
@@ -136,10 +136,10 @@ float opSmoothIntersection( float d1, float d2, float k =1 ) {
 
 mat4 SdfDeform(int i){
     mat4 TheMAT;
-    TheMAT[0] = texelFetchBuffer(Mat0, i);
-    TheMAT[1] = texelFetchBuffer(Mat1, i);
-    TheMAT[2] = texelFetchBuffer(Mat2, i);
-    TheMAT[3] = texelFetchBuffer(Mat3, i);
+    TheMAT[0] = texelFetch(Mat0, i);
+    TheMAT[1] = texelFetch(Mat1, i);
+    TheMAT[2] = texelFetch(Mat2, i);
+    TheMAT[3] = texelFetch(Mat3, i);
     return TheMAT;
 }
 
@@ -154,7 +154,7 @@ float sceneSDF(vec3 p)
 
     for (int i = 0; i < uNum; i++) {
 
-        vec4 SDFsParameter = texelFetchBuffer(SDFsPara, i);
+        vec4 SDFsParameter = texelFetch(SDFsPara, i);
         int type = int(SDFsParameter.x);
         int Uni = int(SDFsParameter.y);
         float K =SDFsParameter.z;
@@ -233,7 +233,8 @@ float map(float value, float min1, float max1, float min2, float max2) {
 float procDepth(vec3 localPos){
     vec4 frag = uTDMats[iVert.cameraIndex].camProj*vec4(localPos,1);
     frag/=frag.w;
-    return (frag.z+1)/2;
+    //return (frag.z+1)/2;
+    return frag.z;
 }
 
 
@@ -267,7 +268,7 @@ vec4 TDLightingSDF(vec3 p,vec3 eye){
 		// depth offset
 		vec3 lightDir = uTDLights[i].direction; 
 		float bias = uDepthOffset*max(1.0* (1.0 - dot(normal, lightDir)), 0.005);
-		// May be wrong ? ¯\_(ツ)_/¯ 
+		// May be wrong ? Â¯\_(ãƒ„)_/Â¯ 
 		
 		vec3 diffuseContrib = vec3(0);
 		vec3 specularContrib = vec3(0);
